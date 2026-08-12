@@ -1,4 +1,5 @@
 local vape = shared.vape
+local runService = game:GetService("RunService");
 vape.run = function(x) return x() end;
 
 for _, v in {
@@ -40,12 +41,9 @@ vape.run(function()
             TestPrint["Enabled"] = callback;
 
             if callback then
-                task.spawn(function()
-                    while TestPrint["Enabled"] do
-                        print(Messages[math.random(1, #Messages)])
-                        task.wait(1)
-                    end
-                end)
+                TestPrint:Clean(runService.Heartbeat:Connect(function()
+                    print(Messages[math.random(1, #Messages)]);
+                end));
             end
         end
     });
